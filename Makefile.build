@@ -1,0 +1,56 @@
+TOP:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+NPROC:=$(shell nproc)
+dir_guard=@mkdir -p $(@D)
+
+# Distro-specific values
+DISTRO=L4T
+SYSROOT:=$(TOP)/out/target/L4T
+PREFIX:=/home/ubuntu/usr
+export PKG_CONFIG_SYSROOT_DIR:=$(SYSROOT)
+export PKG_CONFIG_LIBDIR:=$(SYSROOT)/usr/lib/arm-linux-gnueabihf/pkgconfig:$(SYSROOT)/usr/lib/pkgconfig:$(SYSROOT)/$(PREFIX)/lib/pkgconfig:$(SYSROOT)/usr/share/pkgconfig
+export PKG_CONFIG_PATH:=$(SYSROOT)/$(PREFIX)/lib/pkgconfig
+export CFLAGS:=--sysroot=$(SYSROOT) -I$(SYSROOT)/usr/include/arm-linux-gnueabihf -I$(SYSROOT)/usr/include -L$(SYSROOT)/lib/arm-linux-gnueabihf -L$(SYSROOT)/usr/lib/arm-linux-gnueabihf
+export CXXFLAGS:=$(CFLAGS)
+
+# Toolchain-specific values (toolchain typically depends on distro)
+LINARO_GCC_VERSION:=4.8
+LINARO_GCC_RELEASE:=14.04
+LINARO_GCC_PACKAGE:=gcc-linaro-arm-linux-gnueabihf-${LINARO_GCC_VERSION}-20${LINARO_GCC_RELEASE}_linux
+CROSS_COMPILE:=arm-linux-gnueabihf
+export PATH:=$(TOP)/$(LINARO_GCC_PACKAGE)/bin:$(PATH)
+# Use system pkg-config as the toolchain's one is too old (0.25) to handle PKG_CONFIG_SYSROOT_DIR correctly.
+export PKG_CONFIG:=pkg-config
+
+DEFAULT_TARGETS:=
+all: default_targets
+
+include scripts/drm.mk
+include scripts/wayland.mk
+include scripts/mesa.mk
+include scripts/kmscube.mk
+include scripts/weston.mk
+
+.SECONDARY:
+out/build/%/Makefile: %_depends
+	$(dir_guard)
+	$($*_pre_configure)
+	cd out/build/$*; $(TOP)/$*/autogen.sh --host=${CROSS_COMPILE} --prefix=${PREFIX} --with-sysroot=${SYSROOT} ${$*_CONFIGURE_OPTIONS}
+	$($*_post_configure)
+	touch $@
+
+%_build: out/build/%/Makefile %_depends
+	$($*_pre_build)
+	make -j$(NPROC) -C out/build/$*
+	$($*_post_build)
+
+%_install: %_build
+	$($*_pre_install)
+	fakeroot make -C out/build/$* DESTDIR=$(SYSROOT) install
+	$($*_post_install)
+
+clean:
+	rm -Rf out/build
+
+default_targets: $(DEFAULT_TARGETS)
+
+.PHONY: %_build %_install
