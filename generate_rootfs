@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e
+. scripts/env.sh
+
+sudo chmod +s $SYSROOT/usr/bin/chfn
+sudo chmod +s $SYSROOT/usr/bin/newgrp
+sudo chmod +s $SYSROOT/usr/bin/passwd
+sudo chmod +s $SYSROOT/usr/bin/chsh
+sudo chmod +s $SYSROOT/usr/bin/gpasswd
+sudo chmod +s $SYSROOT/bin/umount
+sudo chmod +s $SYSROOT/bin/mount
+sudo chmod +s $SYSROOT/bin/su
+cd $SYSROOT
+sudo tar -cvpzf $TOP/rootfs.tar.gz .
+
+
