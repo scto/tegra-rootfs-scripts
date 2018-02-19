@@ -117,7 +117,7 @@ cp $TOP/bin/adbd $SYSROOT/usr/bin/adbd
 run_in_qemu systemctl enable dragon-boot.service
 
 cp -R $TOP/linux-firmware/nvidia/ $SYSROOT/lib/firmware/
-cp -R $TOP/firmware/* $SYSROOT/lib/firmware/
+cp -R $TOP/firmware/* $SYSROOT/lib/firmware/ || true
 
 
 ######## SSH PUB KEY
