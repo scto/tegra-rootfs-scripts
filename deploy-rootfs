@@ -1,0 +1,8 @@
+ #!/usr/bin/env bash
+ 
+ if [ -n "$USB_MOUNT" ]; then
+ sudo rsync -aAXv $TOP/out/target/$ARCH/ArchLinuxArm/* $USB_MOUNT/system/
+ else
+ echo "EMPTY USB_MOUNT point variable, try export USB_MOUNT=..."
+ fi
+ 
