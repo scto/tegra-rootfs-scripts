@@ -50,9 +50,11 @@ modules=xwayland.so
 path=/opt/nouveau/bin/Xwayland
 EOF
 
-######## LIGHTDM
-run_in_qemu systemctl enable lightdm
-sed -i 's/#keyboard=/keyboard=onboard/' $SYSROOT/etc/lightdm/lightdm-gtk-greeter.conf
+######### LIGHTDM
+#run_in_qemu systemctl enable lightdm
+#sed -i 's/#keyboard=/keyboard=onboard/' $SYSROOT/etc/lightdm/lightdm-gtk-greeter.conf
+
+run_in_qemu systemctl enable gdm
 
 ######## ADB
 cat <<EOF >$SYSROOT/usr/lib/systemd/system/dragon-boot.service
@@ -115,6 +117,11 @@ chmod 755 $SYSROOT/usr/bin/dragon-boot
 cp $TOP/bin/adbd $SYSROOT/usr/bin/adbd
 
 run_in_qemu systemctl enable dragon-boot.service
+
+# Enable NetworkManager
+run_in_qemu systemctl enable NetworkManager
+run_in_qemu systemctl enable bluetooth
+
 
 cp -R $TOP/linux-firmware/nvidia/ $SYSROOT/lib/firmware/
 cp -R $TOP/firmware/* $SYSROOT/lib/firmware/ || true

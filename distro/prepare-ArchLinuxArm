@@ -28,30 +28,19 @@ mesa-demos
 libepoxy
 xf86-input-libinput
 xorg-server
-lightdm
-lightdm-gtk-greeter
 onboard
-xfce4-session
 networkmanager
 bluez
 bluez-utils
 bluez-tools
-exo
-garcon
-gtk-xfce-engine
-thunar
-thunar-volman
-tumbler
-xfce4-appfinder
-xfce4-panel
-xfce4-power-manager
-xfce4-session
-xfce4-settings
-xfce4-terminal
-xfconf
-xfdesktop
-xfwm4
-xfwm4-themes
+gnome-session
+gnome-control-center
+gdm
+nautilus
+gnome-terminal
+weston
+wayland
+wayland-protocols
 "
 
 EXCLUDED="
@@ -63,8 +52,6 @@ wayland-protocols
 
 status "Using qemu to install required packages on target FS..."
 run_in_qemu pacman -Syu --needed --noconfirm $ARCH_PACKAGES
-
-run_in_qemu systemctl enable lightdm
 
 status "Fixing symlinks in target FS' /usr/lib/..."
 LINKS=$(find $SYSROOT/usr/lib -type l -not -path "*/usr/lib/modules/*")
