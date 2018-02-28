@@ -6,24 +6,9 @@ PACKAGE=linux
 
 cd_package
 
-  - sudo apt-get update -qq
-  
-  # downloading the latest version of the linaro toolchain. 
-  - wget -c https://releases.linaro.org/components/toolchain/binaries/6.2-2016.11/aarch64-linux-gnu/gcc-linaro-6.2-2016.11.tar.xz
-  - tar xf gcc-linaro-6.2-2016.11.tar.xz
-  - export PATH=$PATH:$PWD/gcc-linaro-5.3-2016.02-x86_64_aarch64-linux-gnu/bin/
-  - aarch64-linux-gnu-gcc --version
-  
-  - sudo apt-get install bc
-
-
 #######################################################################################
 
-  # exporting the variable to be used by make utility  
-  - export ARCH=arm64 
-  - export CROSS_COMPILE=aarch64-linux-gnu-
-
-  - sudo make -j$NPROC -C $TOP/linux ARCH=arm64 O=$PWD CROSS_COMPILE=$CROSS_COMPILE defconfig dtbs zImage modules
+   - sudo make -j$NPROC -C $TOP/linux ARCH=arm64 O=$PWD CROSS_COMPILE=$CROSS_COMPILE defconfig dtbs zImage modules
   - sudo make -C $TOP/linux ARCH=arm64 O=$PWD CROSS_COMPILE=$CROSS_COMPILE INSTALL_MOD_PATH=$SYSROOT modules_install
 
 package_success
