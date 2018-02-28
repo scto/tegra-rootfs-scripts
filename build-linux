@@ -6,20 +6,6 @@ PACKAGE=linux
 
 cd_package
 
-language: c
-
-#######################################################################################
-
-
-os:
-  - linux
-
-
-#######################################################################################
-
-
-before_install:
-
   - sudo apt-get update -qq
   
   # downloading the latest version of the linaro toolchain. 
@@ -32,8 +18,6 @@ before_install:
 
 
 #######################################################################################
-
-script:
 
   # exporting the variable to be used by make utility  
   - export ARCH=arm64 
