@@ -8,7 +8,7 @@ PACKAGE=linux
 
 cd_package
 
-make -j8 -C $TOP/linux ARCH=arm64 O=$PWD defconfig dtbs zImage modules
+make -j8 -C $TOP/linux ARCH=arm64 O=$PWD defconfig dtbs Image modules
 make -C $TOP/linux ARCH=arm64 O=$PWD INSTALL_MOD_PATH=$SYSROOT modules_install
 
 package_success
