@@ -20,7 +20,7 @@ case $ARCH in
 		KARCH=arm
 	;;
 	aarch64)
-		KCONFIG="defconfig"
+		KCONFIG="tegra21_defconfig"
 		KIMAGE=Image
 		KARCH=arm64
 	;;
