@@ -8,7 +8,50 @@ PACKAGE=linux
 
 cd_package
 
-make -j8 -C $TOP/linux ARCH=arm64 O=$PWD defconfig dtbs Image modules
-make -C $TOP/linux ARCH=arm64 O=$PWD INSTALL_MOD_PATH=$SYSROOT modules_install
+run_make_kernel()
+{
+    make -C $TOP/linux ARCH=$KARCH O=$PWD CROSS_COMPILE=$CROSS_COMPILE INSTALL_MOD_PATH=$SYSROOT $*
+}
+
+case $ARCH in
+	arm)
+		KCONFIG="tegra_defconfig"
+		KIMAGE=zImage
+		KARCH=arm
+	;;
+	aarch64)
+		KCONFIG="defconfig"
+		KIMAGE=Image
+		KARCH=arm64
+	;;
+	*)
+	error "Unknown arch $ARCH"
+	;;
+esac
+
+# Create config is none exists yet
+if [ ! -f $PWD/.config ]; then
+    run_make_kernel $KCONFIG
+fi
+
+# Build all that we need
+run_make_kernel -j$NPROC oldconfig dtbs $KIMAGE modules
+
+# Install zImage
+cp $BUILDROOT/linux/arch/$KARCH/boot/$KIMAGE $SYSROOT/boot/$KIMAGE-nouveau-$KARCH
+
+# Install dtbs
+mkdir -p $SYSROOT/boot/dtb-nouveau
+case $ARCH in
+	arm)
+		cp $BUILDROOT/linux/arch/arm/boot/dts/tegra124-* $SYSROOT/boot/dtb-nouveau
+	;;
+	aarch64)
+		cp $BUILDROOT/linux/arch/arm64/boot/dts/nvidia/*.dtb $SYSROOT/boot/dtb-nouveau
+	;;
+esac
+
+# Install modules
+run_make_kernel modules_install
 
 package_success
