@@ -17,7 +17,8 @@ run_autogen \
 --disable-valgrind \
 --disable-amdgpu \
 --disable-vc4 \
---enable-static
+--enable-static \
+--enable-tegra-experimental-api
 
 run_make
 run_make install
