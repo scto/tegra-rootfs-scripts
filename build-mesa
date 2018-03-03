@@ -23,7 +23,8 @@ run_autogen \
 --enable-dri3 \
 --enable-glx \
 --enable-glx-tls \
---enable-texture-float
+--enable-texture-float \
+--disable-libunwind
 
 run_make
 run_make install
