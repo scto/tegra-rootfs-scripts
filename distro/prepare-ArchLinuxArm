@@ -33,14 +33,25 @@ networkmanager
 bluez
 bluez-utils
 bluez-tools
-gnome-session
-gnome-control-center
-gdm
-nautilus
-gnome-terminal
-weston
-wayland
-wayland-protocols
+exo
+gedit
+lightdm
+lightdm-gtk-greeter
+garcon
+gtk-xfce-engine
+thunar
+thunar-volman
+tumbler
+xfce4-appfinder
+xfce4-panel
+xfce4-power-manager
+xfce4-session
+xfce4-settings
+xfce4-terminal
+xfconf
+xfdesktop
+xfwm4
+xfwm4-themes
 "
 
 EXCLUDED="
@@ -52,6 +63,8 @@ wayland-protocols
 
 status "Using qemu to install required packages on target FS..."
 run_in_qemu pacman -Syu --needed --noconfirm $ARCH_PACKAGES
+
+run_in_qemu systemctl enable lightdm
 
 status "Fixing symlinks in target FS' /usr/lib/..."
 LINKS=$(find $SYSROOT/usr/lib -type l -not -path "*/usr/lib/modules/*")
