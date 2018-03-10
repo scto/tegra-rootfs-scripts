@@ -9,7 +9,7 @@ PACKAGE=mesa
 cd_package
 
 run_autogen \
---with-dri-drivers=nouveau,tegra \
+--without-dri-drivers \
 --disable-gallium-llvm \
 --with-gallium-drivers=nouveau,tegra \
 --enable-gbm \
