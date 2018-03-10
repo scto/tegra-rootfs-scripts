@@ -25,7 +25,8 @@ run_autogen \
 --enable-glx-tls \
 --enable-texture-float \
 --disable-libunwind \
---enable-omx-bellagio
+--enable-omx-bellagio \
+--disable_omx_tizonia
 
 run_make
 run_make install
