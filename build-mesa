@@ -9,7 +9,7 @@ PACKAGE=mesa
 cd_package
 
 run_autogen \
---without-dri-drivers \
+--with-dri-drivers=nouveau,tegra \
 --disable-gallium-llvm \
 --with-gallium-drivers=nouveau,tegra \
 --enable-gbm \
@@ -24,9 +24,7 @@ run_autogen \
 --enable-glx \
 --enable-glx-tls \
 --enable-texture-float \
---disable-libunwind \
---enable-omx-bellagio \
---with-gallium-omx=bellagio
+--disable-libunwind 
 
 run_make
 run_make install
