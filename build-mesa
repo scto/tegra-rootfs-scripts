@@ -26,7 +26,7 @@ run_autogen \
 --enable-texture-float \
 --disable-libunwind \
 --enable-omx-bellagio \
---with_gallium_omx=bellagio
+--with-gallium-omx=bellagio
 
 run_make
 run_make install
