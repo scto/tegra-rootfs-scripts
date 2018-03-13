@@ -57,8 +57,6 @@ xfwm4-themes
 
 EXCLUDED="
 weston
-wayland
-wayland-protocols
 mesa
 "
 
