@@ -59,6 +59,7 @@ EXCLUDED="
 weston
 wayland
 wayland-protocols
+mesa
 "
 
 
