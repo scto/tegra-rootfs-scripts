@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+set -e
+
+PACKAGE=wayland-protocols
+
+. scripts/env.sh
+
+cd_package
+
+run_autogen \
+--disable-documentation \
+--disable-scanner
+
+run_make
+run_make install
+
+package_success
