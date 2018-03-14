@@ -15,7 +15,6 @@ run_autogen \
 --enable-gbm \
 --enable-egl \
 --with-platforms=drm,x11 \
---without-platforms=wayland \
 --enable-gles1 \
 --enable-gles2 \
 --enable-opengl \
