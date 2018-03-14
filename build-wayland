@@ -9,7 +9,10 @@ PACKAGE=wayland
 cd_package
 
 run_autogen \
---disable-documentation
+--disable-documentation \
+--without-host-scanner \
+--enable-libraries \
+--disable-dtd-validation
 
 run_make
 run_make install
