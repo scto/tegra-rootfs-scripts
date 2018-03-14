@@ -8,9 +8,7 @@ PACKAGE=wayland-protocols
 
 cd_package
 
-run_autogen \
---disable-documentation \
---disable-scanner
+run_autogen
 
 run_make
 run_make install
