@@ -10,7 +10,7 @@ cd_package
 
 run_autogen \
 --disable-documentation \
---disable-host-scanner \
+--with-host-scanner \
 --disable-libraries \
 --disable-dtd-validation
 
