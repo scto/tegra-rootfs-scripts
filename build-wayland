@@ -11,7 +11,7 @@ cd_package
 run_autogen \
 --disable-documentation \
 --without-host-scanner \
---disable-libraries \
+--enable-libraries \
 --disable-dtd-validation
 
 run_make
