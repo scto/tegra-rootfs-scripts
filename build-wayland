@@ -10,8 +10,8 @@ cd_package
 
 run_autogen \
 --disable-documentation \
---with-host-scanner \
---enable-libraries \
+--disable-host-scanner \
+--disable-libraries \
 --disable-dtd-validation
 
 run_make
