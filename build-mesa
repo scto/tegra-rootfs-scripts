@@ -10,11 +10,11 @@ cd_package
 
 run_autogen \
 --with-dri-drivers=swrast,nouveau \
---disable-llvm \
---with-gallium-drivers=nouveau,tegra \
+--enable-llvm \
+--with-gallium-drivers=swrast,nouveau,tegra \
 --enable-gbm \
 --enable-egl \
---with-platforms=drm,x11,wayland \
+--with-platforms=drm,x11 \
 --enable-gles1 \
 --enable-gles2 \
 --enable-opengl \
