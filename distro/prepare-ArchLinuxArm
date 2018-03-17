@@ -57,14 +57,13 @@ xfwm4-themes
 
 EXCLUDED="
 weston
-mesa
 "
 
 
 status "Using qemu to install required packages on target FS..."
 run_in_qemu pacman -Syu --needed --noconfirm $ARCH_PACKAGES
 
-run_in_qemu systemctl enable lightdm
+#run_in_qemu systemctl enable lightdm
 
 status "Fixing symlinks in target FS' /usr/lib/..."
 LINKS=$(find $SYSROOT/usr/lib -type l -not -path "*/usr/lib/modules/*")
