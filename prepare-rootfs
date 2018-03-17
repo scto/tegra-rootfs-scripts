@@ -116,11 +116,11 @@ chmod 755 $SYSROOT/usr/bin/dragon-boot
 
 cp $TOP/bin/adbd $SYSROOT/usr/bin/adbd
 
-run_in_qemu systemctl enable dragon-boot.service
+#run_in_qemu systemctl enable dragon-boot.service
 
 # Enable NetworkManager
-run_in_qemu systemctl enable NetworkManager
-run_in_qemu systemctl enable bluetooth
+#run_in_qemu systemctl enable NetworkManager
+#run_in_qemu systemctl enable bluetooth
 
 
 cp -R $TOP/linux-firmware/nvidia/ $SYSROOT/lib/firmware/
