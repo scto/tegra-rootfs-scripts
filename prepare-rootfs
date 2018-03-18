@@ -25,7 +25,6 @@ mkdir -p $SYSROOT/$NV_PREFIX
 mkdir -p $SYSROOT/boot
 mkdir -p $SYSROOT/lib/modules
 mkdir -p $SYSROOT/lib/firmware
-mkdir -p $SYSROOT/vendor
 
 status "Adding environment to /etc/profile.d/nouveau.sh"
 cat <<EOF |tee $SYSROOT/etc/profile.d/nouveau.sh >/dev/null
@@ -33,7 +32,7 @@ export PATH="$NV_PREFIX/bin:\$PATH"
 export PKG_CONFIG_PATH="$NV_PREFIX/lib/pkgconfig:\$PKG_CONFIG_PATH"
 EOF
 
-chmod u+x $SYSROOT/etc/profile.d/nouveau.sh
+#chmod u+x $SYSROOT/etc/profile.d/nouveau.sh
 
 status "Adding ld.so.conf.d entry for $NV_PREFIX/lib"
 cat <<EOF |tee $SYSROOT/etc/ld.so.conf.d/nouveau.conf >/dev/null
@@ -56,81 +55,13 @@ EOF
 
 # run_in_qemu systemctl enable gdm
 
-######## ADB
-cat <<EOF >$SYSROOT/usr/lib/systemd/system/dragon-boot.service
-[Unit]
-Description=Pixel C Boot Service
-
-After=getty@tty1.service
-
-[Service]
-Type=oneshot
-ExecStart=/usr/bin/dragon-boot
-RemainAfterExit=true
-#ExecStop=/usr/bin/dragon-boot stop
-StandardOutput=journal
-
-[Install]
-WantedBy=multi-user.target
-EOF
-
-cat <<EOF >$SYSROOT/usr/bin/dragon-boot
-#!/bin/sh
-echo "0 255 255 0 1 0 255 0 2 255 255 0 3 0 255 0" > /sys/class/chromeos/cros_ec/lightbar/led_rgb;
-
-
-mkdir /dev/usb-ffs
-mkdir /dev/usb-ffs/adb
-mkdir /config
-mount configfs none /config
-mkdir /config/usb_gadget/g1
-print 0x18d1 > /config/usb_gadget/g1/idVendor
-print 0x0223 > /config/usb_gadget/g1/bcdDevice
-print 0x0200 > /config/usb_gadget/g1/bcdUSB
-mkdir /config/usb_gadget/g1/strings/0x409
-print 0000000000 > /config/usb_gadget/g1/strings/0x409/serialnumber
-print Google > /config/usb_gadget/g1/strings/0x409/manufacturer
-print "Pixel C" > /config/usb_gadget/g1/strings/0x409/product
-mkdir /config/usb_gadget/g1/functions/accessory.gs2
-mkdir /config/usb_gadget/g1/functions/audio_source.gs3
-mkdir /config/usb_gadget/g1/functions/ffs.adb
-mkdir /config/usb_gadget/g1/functions/mtp.gs0
-mkdir /config/usb_gadget/g1/functions/ptp.gs1
-mkdir /config/usb_gadget/g1/functions/rndis.gs4
-print 1 > /config/usb_gadget/g1/functions/rndis.gs4/wceis
-mkdir /config/usb_gadget/g1/functions/midi.gs5
-mkdir /config/usb_gadget/g1/configs/b.1
-mkdir /config/usb_gadget/g1/configs/b.1/strings/0x409
-print 0x1 > /config/usb_gadget/g1/os_desc/b_vendor_code
-print MSFT100 > /config/usb_gadget/g1/os_desc/qw_sign
-print 500 > /config/usb_gadget/g1/configs/b.1/MaxPower
-ln -s /config/usb_gadget/g1/configs/b.1 /config/usb_gadget/g1/os_desc/b.1
-mount functionfs adb /dev/usb-ffs/adb
-
-/usr/bin/adbd &
-
-echo "0 255 100 0 1 255 100 0 2 255 0 100 3 255 0 100" > /sys/class/chromeos/cros_ec/lightbar/led_rgb;
-EOF
-
-chmod 755 $SYSROOT/usr/bin/dragon-boot
-
-cp $TOP/bin/adbd $SYSROOT/usr/bin/adbd
-
-#run_in_qemu systemctl enable dragon-boot.service
-
 # Enable NetworkManager
 #run_in_qemu systemctl enable NetworkManager
 #run_in_qemu systemctl enable bluetooth
 
 
 cp -R $TOP/linux-firmware/nvidia/ $SYSROOT/lib/firmware/
-cp -R $TOP/firmware/* $SYSROOT/lib/firmware/ || true
 
-
-######## SSH PUB KEY
-mkdir -p $SYSROOT/root/.ssh/ $SYSROOT/home/alarm/.ssh/
-cat $TOP/ssh/id_rsa.pub >> $SYSROOT/root/.ssh/authorized_keys
-cat $TOP/ssh/id_rsa.pub >> $SYSROOT/home/alarm/.ssh/authorized_keys
 
 ######## ROOTFS OWNED BY ROOT
 status "Setting back root as owner of target FS"
