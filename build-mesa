@@ -9,22 +9,21 @@ PACKAGE=mesa
 cd_package
 
 run_autogen \
---with-dri-drivers=swrast,nouveau \
---disable-llvm \
---with-gallium-drivers=swrast,nouveau,tegra \
---enable-gbm \
---enable-egl \
---with-platforms=drm,x11 \
---enable-gles1 \
---enable-gles2 \
---enable-opengl \
---enable-osmesa \
---enable-shared-glapi \
---enable-dri3 \
---enable-glx \
---enable-glx-tls \
---enable-texture-float \
---disable-libunwind 
+    --with-gallium-drivers=nouveau,swrast,tegra \
+    --with-dri-drivers= \
+    --with-platforms=x11,drm,wayland \
+    --with-vulkan-drivers= \
+    --with-vulkan-drivers= \
+    --enable-texture-float \
+    --enable-gallium-osmesa \
+    --enable-xa \
+    --enable-nine \
+    --disable-xvmc \
+    --enable-vdpau \
+    --enable-omx-bellagio \
+    --enable-glx-tls \
+    --enable-libglvnd \
+    --disable-libunwind
 
 run_make
 run_make install
