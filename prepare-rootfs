@@ -26,18 +26,18 @@ mkdir -p $SYSROOT/boot
 mkdir -p $SYSROOT/lib/modules
 mkdir -p $SYSROOT/lib/firmware
 
-status "Adding environment to /etc/profile.d/nouveau.sh"
-cat <<EOF |tee $SYSROOT/etc/profile.d/nouveau.sh >/dev/null
-export PATH="$NV_PREFIX/bin:\$PATH"
-export PKG_CONFIG_PATH="$NV_PREFIX/lib/pkgconfig:\$PKG_CONFIG_PATH"
-EOF
+#status "Adding environment to /etc/profile.d/nouveau.sh"
+#cat <<EOF |tee $SYSROOT/etc/profile.d/nouveau.sh >/dev/null
+#export PATH="$NV_PREFIX/bin:\$PATH"
+#export PKG_CONFIG_PATH="$NV_PREFIX/lib/pkgconfig:\$PKG_CONFIG_PATH"
+#EOF
 
 #chmod u+x $SYSROOT/etc/profile.d/nouveau.sh
 
-status "Adding ld.so.conf.d entry for $NV_PREFIX/lib"
-cat <<EOF |tee $SYSROOT/etc/ld.so.conf.d/nouveau.conf >/dev/null
-$NV_PREFIX/lib
-EOF
+#status "Adding ld.so.conf.d entry for $NV_PREFIX/lib"
+#cat <<EOF |tee $SYSROOT/etc/ld.so.conf.d/nouveau.conf >/dev/null
+#$NV_PREFIX/lib
+#EOF
 
 status "Enabling Xwayland in Weston configuration"
 mkdir -p $SYSROOT/etc/xdg/weston
@@ -50,14 +50,14 @@ path=/opt/nouveau/bin/Xwayland
 EOF
 
 ######### LIGHTDM
-#run_in_qemu systemctl enable lightdm
-#sed -i 's/#keyboard=/keyboard=onboard/' $SYSROOT/etc/lightdm/lightdm-gtk-greeter.conf
+run_in_qemu systemctl enable lightdm
+sed -i 's/#keyboard=/keyboard=onboard/' $SYSROOT/etc/lightdm/lightdm-gtk-greeter.conf
 
 # run_in_qemu systemctl enable gdm
 
 # Enable NetworkManager
-#run_in_qemu systemctl enable NetworkManager
-#run_in_qemu systemctl enable bluetooth
+run_in_qemu systemctl enable NetworkManager
+run_in_qemu systemctl enable bluetooth
 
 
 cp -R $TOP/linux-firmware/nvidia/ $SYSROOT/lib/firmware/
