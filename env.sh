@@ -37,7 +37,7 @@ esac
 
 # Where all the programs/libraries from these scripts will be installed
 if [[ -z "$NV_PREFIX" ]]; then
-    NV_PREFIX=/opt/nouveau
+    NV_PREFIX=/usr
 fi
 
 #### helpers
@@ -107,8 +107,6 @@ export PKG_CONFIG_DIR=
 export PKG_CONFIG_LIBDIR="${SYSROOT}/usr/lib/arm-linux-gnueabihf/pkgconfig":"${SYSROOT}/usr/lib/pkgconfig":"${SYSROOT}/usr/share/pkgconfig"
 export PKG_CONFIG_SYSROOT_DIR="${SYSROOT}"
 export PKG_CONFIG_PATH="${SYSROOT}/${NV_PREFIX}/lib/pkgconfig"
-unset LD_LIBRARY_PATH
-export QEMU_LD_PREFIX="$SYSROOT/usr/lib/arm-linux-gnueabihf":"$SYSROOT/usr/lib/aarch64-linux-gnu"
 # Use our own pkg-config as the toolchain's one is too old (0.25) to handle PKG_CONFIG_SYSROOT_DIR correctly.
 export PKG_CONFIG=pkg-config
 ####
