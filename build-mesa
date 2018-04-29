@@ -11,7 +11,7 @@ cd_package
 run_autogen \
     --with-gallium-drivers=nouveau,swrast,tegra \
     --with-dri-drivers= \
-    --with-platforms=x11,drm,wayland \
+    --with-platforms=x11,drm \
     --with-vulkan-drivers= \
     --with-vulkan-drivers= \
     --enable-texture-float \
