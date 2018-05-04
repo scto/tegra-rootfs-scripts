@@ -16,8 +16,7 @@ run_autogen \
     --with-vulkan-drivers= \
     --enable-texture-float \
     --enable-gallium-osmesa \
-    --enable-xa \
-    --enable-nine \
+    --disable-nine \
     --disable-xvmc \
     --enable-vdpau \
     --enable-omx-bellagio \
